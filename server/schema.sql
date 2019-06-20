@@ -5,33 +5,25 @@ CREATE DATABASE chat;
 USE chat;
 
 
--- CREATE TABLE rooms (
---   rooms_id INT AUTO_INCREMENT,
---   roomname VARCHAR(10) NOT NULL,
---   PRIMARY KEY (rooms_id)
--- );
-
 CREATE TABLE users (
   users_id INT AUTO_INCREMENT,
   username VARCHAR(20) NOT NULL, 
-  password VARCHAR(10) NOT NULL,
-  PRIMARY KEY (users_id)
+  PRIMARY KEY (users_id),
+  CONSTRAINT username UNIQUE(username)
 );
 
 CREATE TABLE messages (
   usernameID INT NOT NULL,
   text VARCHAR(20) NOT NULL, 
-  -- roomnameID INT NOT NULL,
   roomname VARCHAR(10) NOT NULL,
-  FOREIGN KEY (usernameID) REFERENCES users(users_id),
-  -- FOREIGN KEY (roomnameID) REFERENCES rooms(rooms_id)
+  FOREIGN KEY (usernameID) REFERENCES users(users_id)
 );
 
--- CREATE TABLE messages (
---   username INT NOT NULL,
---   text VARCHAR(20) NOT NULL, 
---   roomname INT NOT NULL,
--- );
+INSERT INTO users (username) values ("sam");
+INSERT INTO users (username) values ("janice");
+
+INSERT INTO messages(usernameID, text, roomname) VALUES ((SELECT users_id FROM users WHERE username = "janice"),"Hello", "lobby");
+INSERT INTO messages(usernameID, text, roomname) VALUES ((SELECT users_id FROM users WHERE username = "sam"),"Howdie", "lobby" );
 /* Create other tables and define schemas for them here! */
 
 
